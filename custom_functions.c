@@ -1,4 +1,4 @@
-#include "main.c"
+#include "shell.h"
 
 /**
  *my_fork - creates a child process and executes the command.

@@ -1,4 +1,4 @@
-#include "main.c"
+#include "shell.h"
 
 /**
  * num_builtins - returns the number of built-in functions.

@@ -35,8 +35,8 @@ int my_fork(char **com, char **arg, char **env, char *line, int nmp, int isp)
 	{
 		if (execve(com[0], com, env) == -1)
 		{
-			fprintf(stderr, format, arg[0], nump, com[0]);
-			if (!is_p)
+			fprintf(stderr, format, arg[0], nmp, com[0]);
+			if (!isp)
 				free(com[0]);
 			free(com);
 			free(line);

@@ -1,10 +1,10 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- *main - Entry point for the shell program
- *@ac: Argument count
- *@av: Arguments passed to the program
- *@env: Environment variables
+ *main - repeatedly reads, parses, and executes commands from the user.
+ *@ac: number of command-line arguments
+ *@av: array of pointers to command-line arguments
+ *@env: array of pointers to environment variables
  *Return: 0 on success
  */
 int main(int ac, char **av, char **env)
@@ -30,7 +30,7 @@ int main(int ac, char **av, char **env)
 			else
 			{
 				is_path = find_executable_path(&commands[0], env);
-				status = _fork(commands, av, env,
+				status = my_fork(commands, av, env,
 						line, pathValue, is_path);
 				if (status == 200)
 				{ free(line);

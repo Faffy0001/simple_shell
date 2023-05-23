@@ -1,17 +1,17 @@
 #include "shell.h"
 
 /**
- *my_fork - creates a child process and executes the command.
- *@arg: list of arguments passed to the function.
- *@av: list of arguments passed to the program.
- *@env: list of environment variables.
- *@lineptr: pointer to the input buffer.
- *@np: line number in the script file.
- *@c: flag to indicate whether the command is executed in the main process.
+ *my_fork - forks a new process and executes the given command
+ *@com: an array of pointers to the arguments for the command
+ *@arg: an array of pointers to the environment variables
+ *@env: an array of pointers to the environment variables
+ *@line: a pointer to the line of input that was read from the user
+ *@nump: the number of parameters in the command
+ *@is_p: a flag indicating whether the command was entered at the prompt
  *Return: The status of the child process.
  */
 
-int my_fork(char **arg, char **av, char **env, char *lineptr, int np, int c)
+int my_fork(char **com, char **arg, char **env, char *line, int nump, int is_p)
 {
 	pid_t child;
 	int status, i = 0;
@@ -21,25 +21,25 @@ int my_fork(char **arg, char **av, char **env, char *lineptr, int np, int c)
 	int (*builtin_functions[]) (char **) = {&change_directory,
 		&display_help, &exit_shell, &handle_ctrld};
 
-	if (arg[0] == NULL)
+	if (com[0] == NULL)
 		return (1);
 
 	for (i = 0; i < num_builtins(); i++)
 	{
-		if (string_compare(arg[0], builtin_commands[i]) == 0)
-			return (builtin_functions[i](arg));
+		if (string_compare(com[0], builtin_commands[i]) == 0)
+			return (builtin_functions[i](com));
 	}
 
 	child = fork();
 	if (child == 0)
 	{
-		if (execve(arg[0], arg, env) == -1)
+		if (execve(com[0], com, env) == -1)
 		{
-			fprintf(stderr, format, av[0], np, arg[0]);
-			if (!c)
-				free(arg[0]);
-			free(arg);
-			free(lineptr);
+			fprintf(stderr, format, arg[0], nump, com[0]);
+			if (!is_p)
+				free(com[0]);
+			free(com);
+			free(line);
 			exit(errno);
 		}
 	} else
@@ -52,8 +52,8 @@ int my_fork(char **arg, char **av, char **env, char *lineptr, int np, int c)
 }
 
 /**
- * whitespace_check - checks if the string contains only whitespace
- * @str: pointer to a string
+ * whitespace_check - checks if the given string contains only whitespace
+ * @str: a pointer to the string to be checked
  * Return: -1 if it has whitespace, 0 if not
  */
 int whitespace_check(const char *str)
@@ -70,9 +70,9 @@ int whitespace_check(const char *str)
 }
 
 /**
- * get_path_string - find the PATH env
- * @env: array of strings
- * Return: returns the path for execve() or NULL on failure
+ * get_path_string - returns a pointer to the PATH environment variable.
+ * @env: an array of pointers to environment variables
+ * Return: a pointer to the PATH environment variable, or NULL
  */
 
 char *get_path_string(char **env)
@@ -102,8 +102,8 @@ char *get_path_string(char **env)
 }
 
 /**
- * get_env - prints all environment variables
- * @env: string of arrays
+ * get_env - prints all environment variables to standard output.
+ * @env: an array of pointers to environment variables
  */
 void get_env(char **env)
 {
@@ -111,15 +111,15 @@ void get_env(char **env)
 
 	while (env[index])
 	{
-		write(STDOUT_FILENO, env[index], string_length(env[index]))
+		write(STDOUT_FILENO, env[index], string_length(env[index]));
 		write(STDOUT_FILENO, "\n", 1);
 		index++;
 	}
 }
 
 /**
- * getline_command - captures user input
- * Return: pointer to the input
+ * getline_command - reads a line of input from the user
+ * Return:  a pointer to the line of input, or NULL if an error occurred
  */
 
 char *getline_command(void)

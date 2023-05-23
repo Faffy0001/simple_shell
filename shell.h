@@ -27,5 +27,5 @@ int whitespace_check(const char *str);
 char *get_path_string(char **env);
 char *getline_command(void);
 void get_env(char **env);
-int my_fork(char **com, char **arg, char **env, char *line, int nump, int is_p);
+int my_fork(char **com, char **arg, char **env, char *line, int nmp, int isp);
 #endif

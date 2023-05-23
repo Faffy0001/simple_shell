@@ -6,12 +6,12 @@
  *@arg: an array of pointers to the environment variables
  *@env: an array of pointers to the environment variables
  *@line: a pointer to the line of input that was read from the user
- *@nump: the number of parameters in the command
- *@is_p: a flag indicating whether the command was entered at the prompt
+ *@nmp: the number of parameters in the command
+ *@isp: a flag indicating whether the command was entered at the prompt
  *Return: The status of the child process.
  */
 
-int my_fork(char **com, char **arg, char **env, char *line, int nump, int is_p)
+int my_fork(char **com, char **arg, char **env, char *line, int nmp, int isp)
 {
 	pid_t child;
 	int status, i = 0;

@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * find_executable_path - Find the path to an executable file
- * @command: The command to find
- * @env_vars: The environment variables
- *
+ * find_executable_path - finds the path to the executable file for command.
+ * @command: a pointer to the command to find the path for
+ * @env_vars: a pointer to an array of environment variables
  * Return: 0 on success, -1 on failure
  */
+
 int find_executable_path(char **command, char **env_vars)
 {
 	char *token = NULL, *path_str = NULL, *abs_path = NULL;
@@ -15,11 +15,11 @@ int find_executable_path(char **command, char **env_vars)
 
 	if (stat(*command, &file_stat) == 0)
 		return (-1);
-	path_str = get_path_string(env_vars); /*gets the content of "PATH="*/
+	path_str = get_path_string(env_vars);
 	if (!path_str)
 		return (-1);
-	token = strtok(path_str, ":"); /** parses the content of "PATH="*/
-	arg_len = string_length(command); /*gets length of arg*/
+	token = strtok(path_str, ":");
+	arg_len = string_length(*command);
 	while (token)
 	{
 		path_len = string_length(token);
@@ -36,7 +36,7 @@ int find_executable_path(char **command, char **env_vars)
 
 		if (stat(abs_path, &file_stat) == 0)
 		{
-			*commanc = abs_path;
+			*command = abs_path;
 			free(path_str);
 			return (0);
 		}

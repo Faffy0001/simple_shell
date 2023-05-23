@@ -2,7 +2,7 @@
 
 /**
  * num_builtins - returns the number of built-in functions.
- * Return: The number.
+ * Return: the number of builtin commands
  */
 
 int num_builtins(void)
@@ -13,8 +13,8 @@ int num_builtins(void)
 }
 
 /**
- *change_directory - changes the current working directory.
- *@args: list of arguments passed to the function.
+ *change_directory - changes the current working directory
+ *@args:  an array of pointers to strings
  *Return: Always returns 1.
  */
 int change_directory(char **args)
@@ -33,8 +33,8 @@ int change_directory(char **args)
 }
 
 /**
- *display_help - displays the help information.
- *@args: list of arguments passed to the function.
+ *display_help - prints a list of builtin commands to standard output.
+ *@args: an array of pointers to strings, where the first string is
  *Return: Always returns 1.
  */
 int display_help(char **args)
@@ -55,9 +55,9 @@ int display_help(char **args)
 }
 
 /**
- *exit_shell - exits the shell.
- *@args: list of arguments passed to the function.
- *Return: Always returns 200.
+ *exit_shell - exits the shell program.
+ *@args: an array of pointers to strings, which is ignored
+ *Return: 200.
  */
 int exit_shell(char **args)
 {
@@ -67,9 +67,9 @@ int exit_shell(char **args)
 }
 
 /**
- *handle_ctrld - exits the shell when ^D is entered.
- *@args: list of arguments passed to the function.
- *Return: Always returns 200.
+ *handle_ctrld - exits the shell when user types ^D
+ *@args:an array of pointers to strings, which is ignored
+ *Return: 200.
  */
 int handle_ctrld(char **args)
 {
